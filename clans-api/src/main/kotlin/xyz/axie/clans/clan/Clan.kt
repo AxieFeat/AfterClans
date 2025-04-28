@@ -1,0 +1,174 @@
+package xyz.axie.clans.clan
+
+import net.kyori.adventure.audience.ForwardingAudience
+import net.kyori.adventure.text.Component
+import org.bukkit.Location
+import xyz.axie.clans.player.ClanPlayer
+import xyz.axie.clans.player.ClanPlayerSettings
+
+/**
+ * This interface represents some clan.
+ *
+ * It implements [ForwardingAudience] and you can use all methods of Adventure API, like message sending.
+ */
+interface Clan : ForwardingAudience {
+
+    /**
+     * Display name of clan.
+     *
+     * If length of stripped text more, than [ClanSettings.maxNameLength] it should be cut to max size.
+     */
+    var name: Component
+
+    /**
+     * Stripped [name] of clan (without any formatting).
+     *
+     * It should be unique and not repeats.
+     */
+    val strippedName: String
+
+    /**
+     * Settings of this clan.
+     */
+    val settings: ClanSettings
+
+    /**
+     * Storage of this clan.
+     */
+    val storage: ClanStorage
+
+    /**
+     * Owner of clan. He has absolutely all permissions for control clan.
+     */
+    var owner: ClanPlayer
+
+    /**
+     * All members of clan, include [owner].
+     *
+     * Key - Instance of [ClanPlayer],
+     * Value - Setting of this player in this clan.
+     */
+    val members: Map<ClanPlayer, ClanPlayerSettings>
+
+    /**
+     * Adds member in clan. If [member] already have some clan - it should be kicked from it and joined to this.
+     *
+     * If size of [members] is more, than [ClanSettings.maxMembers] member should be ignored and not added to this clan.
+     *
+     * @param member Member to add.
+     *
+     * @return Status of adding. `true` if success, otherwise `false`.
+     */
+    fun addMember(member: ClanPlayer): Boolean
+
+    /**
+     * Remove member from clan.
+     *
+     * If [member] is [owner] it will be removed too.
+     * But the owner should be the next player by rating. If there are 0 players left in the clan, it should be automatically disbanded.
+     *
+     * @param member Member to remove.
+     */
+    fun removeMember(member: ClanPlayer)
+
+    /**
+     * Mapping for levels. It calculates levels by experience count.
+     *
+     * Example:
+     *   - For 1 level your need 1000 exp.
+     *   - For 2 level your need `previous-level-exp` * 1.5 exp.
+     *   - And more, more...
+     *
+     * @see LevelMapping
+     */
+    val levelMapping: LevelMapping
+
+    /**
+     * Current experience count of clan.
+     *
+     * Should not be lower `0`.
+     *
+     * If trying to set value `<0`, that should be set to `0` in any case.
+     */
+    var exp: Long
+
+    /**
+     * Level of clan. It calculated automatically by [levelMapping].
+     *
+     * For optimization should save value and update it only, if count of [exp] was updated.
+     */
+    val level: Int
+
+    /**
+     * Add experience for clan.
+     *
+     * @param exp Count of experience to add. Can be negative for taking.
+     */
+    fun addExp(exp: Long) {
+        this.exp += exp
+    }
+
+    /**
+     * Set level by setting count of exp, that need for getting this level.
+     *
+     * It should overwrite old exp value by new.
+     */
+    fun setExpByLevel(level: Int) {
+        this.exp = levelMapping.getExpForLevel(level)
+    }
+
+    /**
+     * Balance of clan. Can be negative also.
+     *
+     * If value of [balance] more, than [ClanSettings.maxBalance] it should be set to max value.
+     */
+    var balance: Long
+
+    /**
+     * Add balance to clan. Negative values for taking.
+     *
+     * @param amount Amount of money for adding.
+     */
+    fun addBalance(amount: Long) {
+        this.balance += amount
+    }
+
+    /**
+     * Set of all clan-homes in clan.
+     */
+    val homes: Set<String>
+
+    /**
+     * Add clan-home to this clan.
+     *
+     * If size of [homes] is more, than [ClanSettings.maxHomes] adding of all new clan-homes should be ignored.
+     *
+     * @param name Name of home. If already exist - should be overwritten.
+     * @param location Location of clan-home.
+     */
+    fun addHome(name: String, location: Location)
+
+    /**
+     * Remove clan-home from clan.
+     *
+     * @param name Name of clan-home.
+     *
+     * @return Status of removing. `true` if success, otherwise `false`.
+     */
+    fun removeHome(name: String): Boolean
+
+    /**
+     * Get clan-home location by it [name].
+     *
+     * @param name Name of clan-home.
+     *
+     * @return Instance of location or null, if not found.
+     */
+    fun getHome(name: String): Location?
+
+    /**
+     * Disband clan. It should delete it without saving any progress.
+     */
+    fun disband()
+
+}
