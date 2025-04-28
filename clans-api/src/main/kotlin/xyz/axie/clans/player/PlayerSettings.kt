@@ -7,5 +7,5 @@ import xyz.axie.clans.clan.ClanSettings
  *
  * It stored by [ClanSettings].
  */
-interface ClanPlayerSettings {
+interface PlayerSettings {
 }

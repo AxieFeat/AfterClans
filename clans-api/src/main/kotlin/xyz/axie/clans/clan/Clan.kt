@@ -4,7 +4,7 @@ import net.kyori.adventure.audience.ForwardingAudience
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import xyz.axie.clans.player.ClanPlayer
-import xyz.axie.clans.player.ClanPlayerSettings
+import xyz.axie.clans.player.PlayerSettings
 
 /**
  * This interface represents some clan.
@@ -48,7 +48,7 @@ interface Clan : ForwardingAudience {
      * Key - Instance of [ClanPlayer],
      * Value - Setting of this player in this clan.
      */
-    val members: Map<ClanPlayer, ClanPlayerSettings>
+    val members: Map<ClanPlayer, PlayerSettings>
 
     /**
      * Adds member in clan. If [member] already have some clan - it should be kicked from it and joined to this.
@@ -165,10 +165,5 @@ interface Clan : ForwardingAudience {
      * @return Instance of location or null, if not found.
      */
     fun getHome(name: String): Location?
-
-    /**
-     * Disband clan. It should delete it without saving any progress.
-     */
-    fun disband()
 
 }

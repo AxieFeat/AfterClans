@@ -2,6 +2,7 @@ package xyz.axie.clans.player
 
 import net.kyori.adventure.audience.Audience
 import org.bukkit.Bukkit
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import xyz.axie.clans.clan.Clan
 import java.util.UUID
@@ -49,6 +50,13 @@ interface ClanPlayer : Audience {
      * @return Instance of [Player], or null if offline.
      */
     fun asBukkit(): Player? = Bukkit.getPlayer(uuid)
+
+    /**
+     * Get bukkit offline player.
+     *
+     * @return Instance of [OfflinePlayer].
+     */
+    fun asBukkitOffline(): OfflinePlayer = Bukkit.getOfflinePlayer(uuid)
 
     /**
      * Is this player in online.
