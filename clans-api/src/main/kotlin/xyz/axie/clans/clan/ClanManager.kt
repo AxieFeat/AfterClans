@@ -26,7 +26,7 @@ interface ClanManager {
      *
      * @return Completion stage with clan instance.
      */
-    fun getOrLoad(owner: UUID): CompletionStage<Clan?> {
+    fun getOrLoadClan(owner: UUID): CompletionStage<Clan?> {
         if(clans.containsKey(owner)) return CompletableFuture.completedFuture(clans[owner])
 
         return loadClan(owner)
