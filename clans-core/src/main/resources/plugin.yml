@@ -1,0 +1,26 @@
+main: xyz.axie.clans.AfterClans
+name: AfterClans
+version: '1.0'
+api-version: 1.16
+description: Just clans plugin
+author: AxieFeat
+load: POSTWORLD
+
+libraries:
+  - org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.10
+  - io.insert-koin:koin-core-jvm:4.0.4
+  - com.zaxxer:HikariCP:6.3.0
+  - org.jdbi:jdbi3-core:3.49.2
+  - org.jdbi:jdbi3-caffeine-cache:3.49.2
+  - org.jdbi:jdbi3-kotlin-sqlobject:3.49.2
+  - com.github.ben-manes.caffeine:caffeine:3.2.0
+
+depend:
+  - WorldEdit
+  - WorldGuard
+  - ProtocolLib
+
+softdepend:
+  - PlaceholderAPI
+  - Vault
+  - PlayerPoints

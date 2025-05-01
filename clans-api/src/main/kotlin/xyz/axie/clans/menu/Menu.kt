@@ -1,5 +1,6 @@
 package xyz.axie.clans.menu
 
+import net.kyori.adventure.audience.ForwardingAudience
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -13,7 +14,7 @@ import java.util.function.Consumer
 /**
  * This interface represents some menu.
  */
-interface Menu : InventoryHolder, PersistentDataHolder, Iterable<Map.Entry<Int, MenuItem>> {
+interface Menu : ForwardingAudience, InventoryHolder, PersistentDataHolder, Iterable<Map.Entry<Int, MenuItem>> {
 
     /**
      * Title of menu.

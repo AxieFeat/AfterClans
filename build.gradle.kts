@@ -1,9 +1,13 @@
 plugins {
     kotlin("jvm") version "2.1.10"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("java-library")
 }
 
 allprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "java-library")
+    apply(plugin = "com.github.johnrengelman.shadow")
 
     group = "xyz.axie.afterclans"
     version = "1.0"
@@ -22,6 +26,6 @@ allprojects {
     }
 
     kotlin {
-        jvmToolchain(8)
+        jvmToolchain(11)
     }
 }
