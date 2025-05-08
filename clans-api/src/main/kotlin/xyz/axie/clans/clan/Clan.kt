@@ -1,10 +1,10 @@
 package xyz.axie.clans.clan
 
+import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.audience.ForwardingAudience
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import xyz.axie.clans.player.ClanPlayer
-import xyz.axie.clans.player.PlayerSettings
 
 /**
  * This interface represents some clan.
@@ -48,7 +48,7 @@ interface Clan : ForwardingAudience {
      * Key - Instance of [ClanPlayer],
      * Value - Setting of this player in this clan.
      */
-    val members: Map<ClanPlayer, PlayerSettings>
+    val members: Set<ClanPlayer>
 
     /**
      * Adds member in clan. If [member] already have some clan - it should be kicked from it and joined to this.
@@ -103,9 +103,15 @@ interface Clan : ForwardingAudience {
      * Add experience for clan.
      *
      * @param exp Count of experience to add. Can be negative for taking.
+     *
+     * @return `true` if new exp was up level, otherwise `false`.
      */
-    fun addExp(exp: Long) {
+    fun addExp(exp: Long): Boolean {
+        val old = level
         this.exp += exp
+        val new = level
+
+        return old > new
     }
 
     /**
@@ -165,5 +171,7 @@ interface Clan : ForwardingAudience {
      * @return Instance of location or null, if not found.
      */
     fun getHome(name: String): Location?
+
+    override fun audiences(): Iterable<Audience> = members
 
 }

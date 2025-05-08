@@ -22,6 +22,7 @@ allprojects {
     }
 
     dependencies {
+        compileOnly("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.10")
         compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
     }
 

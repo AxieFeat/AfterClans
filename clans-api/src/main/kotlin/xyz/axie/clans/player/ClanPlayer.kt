@@ -27,8 +27,19 @@ interface ClanPlayer : Audience {
 
     /**
      * Clan of this player. Null if not have clan.
+     *
+     * If you add player to clan via setting this property - all limiters of [xyz.axie.clans.clan.ClanSettings] should be ignored.
+     *
+     * For adding player to clan recommended use [Clan.addMember].
      */
-    val clan: Clan?
+    var clan: Clan?
+
+    /**
+     * Player settings in this clan. Null if [clan] is null.
+     *
+     * Should be reset to default if [clan] of player was changed.
+     */
+    var settings: PlayerSettings?
 
     /**
      * Is this player has clan.
@@ -40,9 +51,9 @@ interface ClanPlayer : Audience {
     /**
      * Is this player owner of some clan.
      *
-     * @return `tru` if player is owner of some clan, otherwise `false`.
+     * @return `true` if player is owner of some clan, otherwise `false`.
      */
-    fun isOwner(): Boolean = hasClan() && clan!!.owner == this
+    fun isOwner(): Boolean = clan?.owner == this
 
     /**
      * Get bukkit player from this. Can return null if player is offline.
@@ -54,15 +65,23 @@ interface ClanPlayer : Audience {
     /**
      * Get bukkit offline player.
      *
+     * Please note that there is no full guarantee that this function will return an offline player.
+     * The server may not know about this player, for example, if you are using a multi-server system and the player
+     * has not joined anytime into this particular server.
+     *
      * @return Instance of [OfflinePlayer].
      */
     fun asBukkitOffline(): OfflinePlayer = Bukkit.getOfflinePlayer(uuid)
 
     /**
-     * Is this player in online.
+     * Is this player in online
+     *
+     * This function does not take into account and does not support multi-server checking.
+     * If clans are merged on multiple servers,
+     * you will not be able to check an online player from another server.
      *
      * @return `true` if player online, otherwise `false`.
      */
-    fun isOnline(): Boolean = asBukkit() != null
+    fun isOnline(): Boolean = asBukkit()?.isOnline == true
 
 }

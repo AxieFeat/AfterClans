@@ -1,7 +1,13 @@
 package xyz.axie.clans
 
 import org.bukkit.plugin.java.JavaPlugin
+import org.koin.core.context.GlobalContext.startKoin
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 import xyz.axie.clans.clan.ClanManager
+import xyz.axie.clans.economy.EconomyModel
+import xyz.axie.clans.economy.EconomyResolver
+import xyz.axie.clans.economy.EconomyUsage
 import xyz.axie.clans.menu.ItemFactory
 import xyz.axie.clans.menu.MenuFactory
 import xyz.axie.clans.player.PlayerManager
@@ -18,15 +24,21 @@ class AfterClans : JavaPlugin(), ClansPlugin {
     override val itemFactory: ItemFactory
         get() = TODO("Not yet implemented")
 
-    lateinit var mainCurrency: Economy<Double>
-    lateinit var additionalCurrency: Economy<Int>
+    private lateinit var mainCurrency: Economy<Int>
+    private lateinit var additionalCurrency: Economy<Int>
 
     override fun onEnable() {
         mainCurrency = EconomyResolver.resolve(EconomyModel.VAULT)
         additionalCurrency = EconomyResolver.resolve(EconomyModel.PLAYER_POINTS)
 
-        println("Main currency configured with ${mainCurrency.name}")
-        println("Additional currency configured with ${additionalCurrency.name}")
+        startKoin {
+            modules(
+                module {
+                    single(named(EconomyUsage.MAIN)) { mainCurrency }
+                    single(named(EconomyUsage.ADDITIONAL)) { additionalCurrency }
+                }
+            )
+        }
     }
 
 }
