@@ -3,7 +3,7 @@ package xyz.axie.clans.clan
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import xyz.axie.clans.player.ClanPlayer
-import xyz.axie.clans.player.PlayerSettings
+import xyz.axie.nbt.MutableCompoundTag
 
 class CraftClan(
     override var owner: ClanPlayer
@@ -13,11 +13,10 @@ class CraftClan(
         set(value) {}
     override val strippedName: String
         get() = TODO("Not yet implemented")
-    override val settings: ClanSettings
-        get() = TODO("Not yet implemented")
+    
     override val storage: ClanStorage
         get() = TODO("Not yet implemented")
-    override val members: Map<ClanPlayer, PlayerSettings>
+    override val members: Set<ClanPlayer>
         get() = TODO("Not yet implemented")
 
     override fun addMember(member: ClanPlayer): Boolean {
@@ -52,5 +51,9 @@ class CraftClan(
     override fun getHome(name: String): Location? {
         TODO("Not yet implemented")
     }
+
+    override var compound: MutableCompoundTag
+        get() = TODO("Not yet implemented")
+        set(value) {}
 
 }

@@ -4,19 +4,19 @@ import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.audience.ForwardingAudience
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
+import xyz.axie.clans.nbt.CompoundTagHolder
 import xyz.axie.clans.player.ClanPlayer
 
 /**
  * This interface represents some clan.
  *
  * It implements [ForwardingAudience] and you can use all methods of Adventure API, like message sending.
+ * It also implements [CompoundTagHolder] and you can store any data in it.
  */
-interface Clan : ForwardingAudience {
+interface Clan : ForwardingAudience, CompoundTagHolder {
 
     /**
      * Display name of clan.
-     *
-     * If length of stripped text more, than [ClanSettings.maxNameLength] it should be cut to max size.
      */
     var name: Component
 
@@ -26,11 +26,6 @@ interface Clan : ForwardingAudience {
      * It should be unique and not repeats.
      */
     val strippedName: String
-
-    /**
-     * Settings of this clan.
-     */
-    val settings: ClanSettings
 
     /**
      * Storage of this clan.
@@ -44,16 +39,11 @@ interface Clan : ForwardingAudience {
 
     /**
      * All members of clan, include [owner].
-     *
-     * Key - Instance of [ClanPlayer],
-     * Value - Setting of this player in this clan.
      */
     val members: Set<ClanPlayer>
 
     /**
      * Adds member in clan. If [member] already have some clan - it should be kicked from it and joined to this.
-     *
-     * If size of [members] is more, than [ClanSettings.maxMembers] member should be ignored and not added to this clan.
      *
      * @param member Member to add.
      *
@@ -63,9 +53,6 @@ interface Clan : ForwardingAudience {
 
     /**
      * Remove member from clan.
-     *
-     * If [member] is [owner] it will be removed too.
-     * But the owner should be the next player by rating. If there are 0 players left in the clan, it should be automatically disbanded.
      *
      * @param member Member to remove.
      */

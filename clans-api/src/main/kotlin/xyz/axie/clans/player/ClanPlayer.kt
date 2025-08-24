@@ -5,6 +5,7 @@ import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import xyz.axie.clans.clan.Clan
+import xyz.axie.clans.nbt.CompoundTagHolder
 import java.util.UUID
 
 /**
@@ -13,7 +14,7 @@ import java.util.UUID
  * It implements [Audience] and you can use all methods of Adventure API, like message sending.
  * But it will work only if player is online.
  */
-interface ClanPlayer : Audience {
+interface ClanPlayer : Audience, CompoundTagHolder {
 
     /**
      * UUID of this player.

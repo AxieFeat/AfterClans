@@ -23,7 +23,7 @@ dependencies {
 tasks.withType<ShadowJar> {
     archiveFileName.set("AfterClans.jar")
 
-    destinationDirectory = file("/Users/axie/IdeaProjects/AfterClans/server/plugins")
+    destinationDirectory = file("././server/plugins")
 }
 
 tasks.processResources {

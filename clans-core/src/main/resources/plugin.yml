@@ -7,6 +7,8 @@ author: AxieFeat
 
 libraries:
   - org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.10
+  - org.jetbrains:annotations:26.0.1
+  - org.pcollections:pcollections:4.0.0
   - io.insert-koin:koin-core-jvm:4.0.4
   - com.zaxxer:HikariCP:6.3.0
   - org.jdbi:jdbi3-core:3.49.2

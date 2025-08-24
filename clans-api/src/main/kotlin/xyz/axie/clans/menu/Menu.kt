@@ -7,14 +7,14 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryDragEvent
 import org.bukkit.inventory.InventoryHolder
-import org.bukkit.persistence.PersistentDataHolder
 import org.jetbrains.annotations.Range
+import xyz.axie.clans.nbt.CompoundTagHolder
 import java.util.function.Consumer
 
 /**
  * This interface represents some menu.
  */
-interface Menu : ForwardingAudience, InventoryHolder, PersistentDataHolder, Iterable<Map.Entry<Int, MenuItem>> {
+interface Menu : ForwardingAudience, InventoryHolder, CompoundTagHolder, Iterable<Map.Entry<Int, MenuItem>> {
 
     /**
      * Title of menu.
